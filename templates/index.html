@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kanban Board</title>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </head>
@@ -14,61 +13,79 @@
     <h1 class="ui center aligned header" style="margin-top: 50px;">Kanban Board</h1>
     <div style="display: flex; margin-left: 10px; margin-right: 10px">
         <div style="margin-top: 50px;" class="ui container">
-            <form class="ui form" action="/add" method="post">
+            <form class="ui form" action="/add/todo" method="post">
                 <div class="field">
                     <label style="font-size: 20px">Todo</label>
                     <input type="text" name="title" placeholder="Enter Task Name..."><br>
                     <input type="text" name="description" placeholder="Enter Task Description..."><br>
                 </div>
-                <button class="ui blue button" type="submit">Add</button>
+                <button class="ui green button" type="submit">Add</button>
             </form>
 
-            <hr> {% for todo in db.todo %}
+            <hr> {% for i in range(0, db.todo|length) %}
             <div class="ui segment">
-                <p class="ui big header">{{todo.id }} | {{ todo.title }}</p>
-                <p class="ui small header">{{todo.description}}</p>
-                <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
-                <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+                <p class="ui big header">{{db.todo[i].title }}</p>
+                <p class="ui small header">{{db.todo[i].description}}</p>
+                <form class="ui form" style="display: flex; margin-bottom: 1em;" action="/move/todo/{{ i }}" method="post">
+                    <select name="finalCat" class="ui fluid dropdown" style="margin-right: 0.25em;">
+                            <option value="doing">Doing</option>
+                            <option value="complete">Complete</option>
+                        </select>
+                    <button class="ui blue button" type="submit">Move</button>
+                </form>
+                <a class="ui red button" href="/delete/todo/{{ i }}">Delete</a>
             </div>
             {% endfor %}
         </div>
         <div style="margin-top: 50px;" class="ui container">
 
-            <form class="ui form" action="/add" method="post">
+            <form class="ui form" action="/add/doing" method="post">
                 <div class="field">
                     <label style="font-size: 20px">Doing</label>
                     <input type="text" name="title" placeholder="Enter Task Name..."><br>
                     <input type="text" name="description" placeholder="Enter Task Description..."><br>
                 </div>
-                <button class="ui blue button" type="submit">Add</button>
+                <button class="ui green button" type="submit">Add</button>
             </form>
 
-            <hr> {% for todo in db.doing %}
+            <hr> {% for i in range(0, db.doing|length) %}
             <div class="ui segment">
-                <p class="ui big header">{{todo.id }} | {{ todo.title }}</p>
-                <p class="ui small header">{{todo.description}}</p>
-                <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
-                <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+                <p class="ui big header">{{ db.doing[i].title }}</p>
+                <p class="ui small header">{{db.doing[i].description}}</p>
+                <form class="ui form" style="display: flex; margin-bottom: 1em;" action="/move/doing/{{ i }}" method="post">
+                    <select name="finalCat" class="ui fluid dropdown" style="margin-right: 0.25em;">
+                            <option value="todo">Todo</option>
+                            <option value="complete">Complete</option>
+                    </select>
+                    <button class="ui blue button" type="submit">Move</button>
+                </form>
+                <a class="ui red button" href="/delete/doing/{{ i }}">Delete</a>
             </div>
             {% endfor %}
         </div>
         <div style="margin-top: 50px;" class="ui container">
 
-            <form class="ui form" action="/add" method="post">
+            <form class="ui form" action="/add/complete" method="post">
                 <div class="field">
                     <label style="font-size: 20px">Completed</label>
                     <input type="text" name="title" placeholder="Enter Task Name..."><br>
                     <input type="text" name="description" placeholder="Enter Task Description..."><br>
                 </div>
-                <button class="ui blue button" type="submit">Add</button>
+                <button class="ui green button" type="submit">Add</button>
             </form>
 
-            <hr> {% for todo in db.complete %}
+            <hr> {% for i in range(0, db.complete|length)%}
             <div class="ui segment">
-                <p class="ui big header">{{todo.id }} | {{ todo.title }}</p>
-                <p class="ui small header">{{todo.description}}</p>
-                <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
-                <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
+                <p class="ui big header">{{ db.complete[i].title }}</p>
+                <p class="ui small header">{{db.complete[i].description}}</p>
+                <form class="ui form" style="display: flex; margin-bottom: 1em;" action="/move/complete/{{ i }}" method="post">
+                    <select name="finalCat" class="ui fluid dropdown" style="margin-right: 0.25em;">
+                            <option value="todo">Todo</option>
+                            <option value="doing">Doing</option>
+                    </select>
+                    <button class="ui blue button" type="submit">Move</button>
+                </form>
+                <a class="ui red button" href="/delete/complete/{{ i }}">Delete</a>
             </div>
             {% endfor %}
         </div>
