@@ -1,17 +1,18 @@
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
 
-toDo = []
-doing = []
-complete = []
+db = {
+    "todo": [{"id": 1, "description": 'Falseyoo', "title": 'yo'}],
+    "doing": [{"id": 1, "description": 'Falseyoo', "title": 'yoo'}],
+    "complete": [{"id": 1, "description": 'Falseyoo', "title": 'yooo'}]
+}
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def index():
-    print(toDo)
-    return render_template('index.html', todo_list=[{"id": 1, "complete": 'no', "title": 'yo'}])
+    print(db)
+    return render_template('index.html', db=db)
 
 
 @app.route("/add")
